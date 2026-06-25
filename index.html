@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мультимедийный Портал</title>
     <style>
-        /* Базовые настройки для плавного перехода цветов */
         :root {
-            --main-color: #1e3a8a; /* Цвет по умолчанию (Фильмы) */
+            --main-color: #1e4a8a; /* Цвет по умолчанию (Фильмы) */
             --bg-color: #0f172a;
             --card-bg: #1e293b;
             --text-color: #f8fafc;
+            --sidebar-bg: #1e1b4b;
         }
 
         body {
@@ -18,23 +18,23 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            /* Благодаря этому свойству всё будет перекрашиваться плавно */
             transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
         }
 
-        /* Шапка сайта */
+        /* Шапка сайта зафиксирована */
         header {
             background-color: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 90;
             border-bottom: 2px solid var(--main-color);
             transition: border-color 0.5s ease;
             padding: 15px 20px;
         }
 
-        .nav-container {
+        .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -44,11 +44,34 @@
             gap: 15px;
         }
 
+        .left-block {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Кнопка бокового меню (изначально скрыта, видна только в Дорамах) */
+        .menu-toggle-btn {
+            background: var(--main-color);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none; /* Прячем по умолчанию */
+        }
+
+        .menu-toggle-btn.visible {
+            display: inline-block; /* Показываем, когда нужно */
+        }
+
         .logo {
             font-size: 24px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .logo span {
@@ -56,7 +79,7 @@
             transition: color 0.5s ease;
         }
 
-        /* Меню переключения разделов */
+        /* Верхнее меню */
         nav {
             display: flex;
             gap: 10px;
@@ -80,14 +103,101 @@
             background-color: rgba(255, 255, 255, 0.05);
         }
 
-        /* Активная кнопка подсвечивается своим цветом */
         .nav-btn.active {
             background-color: var(--main-color);
             color: white;
             box-shadow: 0 4px 15px var(--main-color);
         }
 
-        /* Сетка для карточек контента */
+        /* Выезжающая боковая панель (Сайдбар) */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 260px;
+            height: 100%;
+            background-color: var(--sidebar-bg);
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            transition: left 0.4s ease;
+            padding: 20px;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-close-btn {
+            background: transparent;
+            border: 2px solid var(--main-color);
+            color: var(--text-color);
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            float: right;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar-close-btn:hover {
+            background-color: var(--main-color);
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            color: var(--main-color);
+            margin-top: 40px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 5px;
+            transition: color 0.5s ease;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 6px;
+        }
+
+        .sidebar-menu a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+            padding-left: 14px;
+        }
+
+        /* Затемнение фона */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 95;
+            display: none;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        /* Основной контент */
         main {
             max-width: 1200px;
             margin: 40px auto;
@@ -108,14 +218,12 @@
             gap: 25px;
         }
 
-        /* Карточка релиза */
         .card {
             background-color: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
         }
 
         .card:hover {
@@ -141,9 +249,6 @@
             font-size: 16px;
             font-weight: bold;
             margin: 0 0 8px 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .card-tag {
@@ -159,81 +264,61 @@
 </head>
 <body>
 
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-close-btn" id="close-btn">×</button>
+        
+        <div class="sidebar-title">Жанры</div>
+        <ul class="sidebar-menu">
+            <li><a href="#">Романтика</a></li>
+            <li><a href="#">Комедия</a></li>
+            <li><a href="#">Драма</a></li>
+            <li><a href="#">Мелодрама</a></li>
+            <li><a href="#">Исторический</a></li>
+            <li><a href="#">Фэнтези</a></li>
+            <li><a href="#">Мистика</a></li>
+            <li><a href="#">Детектив</a></li>
+            <li><a href="#">Триллер</a></li>
+            <li><a href="#">Школа</a></li>
+            <li><a href="#">Медицина</a></li>
+            <li><a href="#">Юриспруденция</a></li>
+        </ul>
+
+        <div class="sidebar-title">Коллекции</div>
+        <ul class="sidebar-menu">
+            <li><a href="#">Популярные подборки</a></li>
+            <li><a href="#">Выбор редакции</a></li>
+        </ul>
+
+        <div class="sidebar-title">Личные списки</div>
+        <ul class="sidebar-menu">
+            <li><a href="#">Мои коллекции</a></li>
+            <li><a href="#">Сохранённые коллекции</a></li>
+        </ul>
+
+        <div class="sidebar-title">Страны</div>
+        <ul class="sidebar-menu">
+            <li><a href="#">Южная Корея</a></li>
+            <li><a href="#">Китай</a></li>
+            <li><a href="#">Япония</a></li>
+            <li><a href="#">Тайвань</a></li>
+            <li><a href="#">Таиланд</a></li>
+        </ul>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
     <header>
-        <div class="nav-container">
-            <div class="logo">KAI<span>Media</span></div>
+        <div class="header-container">
+            <div class="left-block">
+                <button class="menu-toggle-btn" id="toggle-btn">☰ Меню</button>
+                <div class="logo">KAI<span>Media</span></div>
+            </div>
             <nav id="main-nav">
-                <!-- Каждой кнопке задаем ее уникальный цвет в data-color -->
                 <button class="nav-btn active" data-type="movies" data-color="#1e4a8a" data-name="Фильмы">Фильмы</button>
                 <button class="nav-btn" data-type="series" data-color="#475569" data-name="Сериалы">Сериалы</button>
                 <button class="nav-btn" data-type="cartoons" data-color="#06b6d4" data-name="Мультики">Мультики</button>
-                <<a href="dramas.html" style="text-decoration: none;">
-    <button class="nav-btn" data-type="dramas" data-color="#ec4899" data-name="Дорамы">Дорамы</button>
-</a>>
+                <button class="nav-btn" data-type="dramas" data-color="#ec4899" data-name="Дорамы">Дорамы</button>
                 <button class="nav-btn" data-type="anime" data-color="#f97316" data-name="Аниме">Аниме</button>
                 <button class="nav-btn" data-type="donghua" data-color="#10b981" data-name="Дунхуа">Дунхуа</button>
                 <button class="nav-btn" data-type="novels" data-color="#b45309" data-name="Новеллы">Новеллы</button>
-                <button class="nav-btn" data-type="manhwa" data-color="#8b5cf6" data-name="Манхва">Манхва</button>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <h2 class="section-title" id="current-section-title">Популярные Фильмы</h2>
-        
-        <!-- Сетка с карточками, которые будут меняться -->
-        <div class="grid" id="content-grid">
-            <!-- Карточки сгенерируются автоматически через JavaScript -->
-        </div>
-    </main>
-
-    <script>
-        const buttons = document.querySelectorAll('.nav-btn');
-        const sectionTitle = document.getElementById('current-section-title');
-        const contentGrid = document.getElementById('content-grid');
-
-        // Функция для создания тестовых карточек
-        function generateCards(type, count = 8) {
-            contentGrid.innerHTML = '';
-            for (let i = 1; i <= count; i++) {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="card-poster">Постер #${i}</div>
-                    <div class="card-info">
-                        <p class="card-title">Пример релиза #${i}</p>
-                        <span class="card-tag">${type}</span>
-                    </div>
-                `;
-                contentGrid.appendChild(card);
-            }
-        }
-
-        // Логика переключения тем и разделов
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Убираем активный класс у всех кнопок и добавляем текущей
-                buttons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-
-                // Получаем данные из кнопки
-                const targetColor = button.getAttribute('data-color');
-                const sectionName = button.getAttribute('data-name');
-                const typeName = button.innerText;
-
-                // Меняем CSS переменную (магия плавной смены цвета)
-                document.documentElement.style.setProperty('--main-color', targetColor);
-                
-                // Меняем заголовок
-                sectionTitle.innerText = `Популярные ${sectionName}`;
-
-                // Обновляем карточки под выбранный тип
-                generateCards(typeName);
-            });
-        });
-
-        // Первичная генерация карточек при загрузке сайта (для Фильмов)
-        generateCards('Фильмы');
-    </script>
-</body>
-</html>
+                <button class="nav-btn" data-type="manhwa" data-color="#8b5cf6" data-name="Ман
