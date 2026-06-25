@@ -240,7 +240,7 @@
             padding: 25px;
             margin-bottom: 35px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            display: none; /* Скрыт по умолчанию, показываем только при клике */
+            display: none;
         }
 
         .filter-container.active {
@@ -254,7 +254,6 @@
             margin-bottom: 25px;
         }
 
-        /* Кнопка-спойлер для раскрытия галочек */
         .filter-dropdown-btn {
             background-color: #0f172a;
             color: #cbd5e1;
@@ -278,13 +277,12 @@
             color: #fff;
         }
 
-        /* Блок с чекбоксами (изначально свернут) */
         .filter-checkbox-block {
             background-color: #0b0f19;
             border-radius: 8px;
             padding: 15px;
             margin-top: 8px;
-            display: none; /* Скрыт пока не нажмут спойлер */
+            display: none;
             max-height: 200px;
             overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -294,7 +292,6 @@
             display: block;
         }
 
-        /* Элемент галочки */
         .checkbox-item {
             display: flex;
             align-items: center;
@@ -311,13 +308,12 @@
         }
 
         .checkbox-item input {
-            accent-color: var(--main-color); /* Красит галочку в цвет раздела */
+            accent-color: var(--main-color);
             width: 16px;
             height: 16px;
             cursor: pointer;
         }
 
-        /* Главная кнопка применения фильтра */
         .apply-filters-btn {
             background: var(--main-color);
             color: white;
@@ -336,11 +332,172 @@
             box-shadow: 0 6px 20px var(--main-color);
         }
 
+        /* СТИЛИ ДЛЯ СЕТКИ ЛИЧНЫХ КОЛЛЕКЦИЙ (ПАПОК) */
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            display: none; /* Скрыта по умолчанию */
+        }
+
+        .collections-grid.active {
+            display: grid;
+        }
+
+        .folder-card {
+            border-radius: 16px;
+            padding: 25px;
+            min-height: 160px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .folder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .folder-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .folder-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            max-width: 80%;
+        }
+
+        .folder-edit-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+
+        .folder-edit-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .folder-count {
+            font-size: 13px;
+            background: rgba(0,0,0,0.4);
+            padding: 4px 10px;
+            border-radius: 12px;
+            align-self: flex-start;
+            backdrop-filter: blur(5px);
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        /* Форма редактирования внутри папки */
+        .edit-mode-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1e293b;
+            padding: 15px;
+            box-sizing: border-box;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 5;
+        }
+
+        .edit-mode-panel.open {
+            display: flex;
+        }
+
+        .edit-input {
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .edit-input:focus {
+            border-color: #ec4899;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .color-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .color-dot:hover {
+            transform: scale(1.15);
+        }
+
+        .color-dot.selected {
+            border-color: white;
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .save-folder-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* Цветовые схемы папок (Градиенты) */
+        .color-pink { background: linear-gradient(135deg, #ec4899, #8b5cf6); }
+        .color-blue { background: linear-gradient(135deg, #1e3a8a, #06b6d4); }
+        .color-purple { background: linear-gradient(135deg, #4c1d95, #6366f1); }
+        .color-red { background: linear-gradient(135deg, #b91c1c, #f97316); }
+        .color-green { background: linear-gradient(135deg, #065f46, #10b981); }
+
         /* Сетка релизов */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 25px;
+        }
+
+        .grid.hidden {
+            display: none;
         }
 
         .card {
@@ -432,7 +589,7 @@
             <li><a href="#">Популярные подборки</a></li>
             <li><a href="#">Общие коллекции</a></li>
             <li><a href="#">Сохранённые коллекции</a></li>
-            <li><a href="#">Личные коллекции 📂</a></li>
+            <li><a href="#" id="personal-collections-btn" style="color: #ec4899; font-weight: bold;">Личные коллекции 📂</a></li>
         </ul>
 
         <div class="sidebar-title">Страны</div>
@@ -469,11 +626,9 @@
     <main>
         <h2 class="section-title" id="current-section-title">Популярные Фильмы</h2>
 
-        <!-- БЛОК КОНСТРУКТОРА ФИЛЬТРОВ (появляется при клике на "По фильтрам") -->
+        <!-- БЛОК КОНСТРУКТОРА ФИЛЬТРОВ -->
         <div class="filter-container" id="filter-wrapper">
             <div class="filter-selectors-grid">
-                
-                <!-- Блок Жанров -->
                 <div>
                     <button class="filter-dropdown-btn" onclick="toggleDropdown('dropdown-genres')">🎭 Выбрать жанры <span>▼</span></button>
                     <div class="filter-checkbox-block" id="dropdown-genres">
@@ -488,7 +643,7 @@
                         <label class="checkbox-item"><input type="checkbox" value="Триллер"> Триллер</label>
                         <label class="checkbox-item"><input type="checkbox" value="Школа"> Школа</label>
                         <label class="checkbox-item"><input type="checkbox" value="Медицина"> Медицина</label>
-                        <label class="checkbox-item"><input type="checkbox" value="Юриспруденция"> Юриспруденция</label>
+                        <label class="checkbox-item"><input type="checkbox" value="Юриспрувуденция"> Юриспруденция</label>
                         <label class="checkbox-item" style="color: #f472b6;"><input type="checkbox" value="BL"> BL</label>
                         <label class="checkbox-item" style="color: #f472b6;"><input type="checkbox" value="Гет"> Гет</label>
                         <label class="checkbox-item" style="color: #f87171;"><input type="checkbox" value="Тяжёлое стекло"> Тяжёлое стекло 💔</label>
@@ -498,7 +653,6 @@
                     </div>
                 </div>
 
-                <!-- Блок Годов -->
                 <div>
                     <button class="filter-dropdown-btn" onclick="toggleDropdown('dropdown-years')">📅 Выбрать год <span>▼</span></button>
                     <div class="filter-checkbox-block" id="dropdown-years">
@@ -510,7 +664,6 @@
                     </div>
                 </div>
 
-                <!-- Блок Стран -->
                 <div>
                     <button class="filter-dropdown-btn" onclick="toggleDropdown('dropdown-countries')">🌏 Выбрать страны <span>▼</span></button>
                     <div class="filter-checkbox-block" id="dropdown-countries">
@@ -521,12 +674,86 @@
                         <label class="checkbox-item"><input type="checkbox" value="Таиланд"> Таиланд</label>
                     </div>
                 </div>
-
             </div>
-            
             <button class="apply-filters-btn" id="submit-filters-btn">Применить фильтры</button>
         </div>
 
+        <!-- СЕТКА ЛИЧНЫХ КОЛЛЕКЦИЙ -->
+        <div class="collections-grid" id="collections-wrapper">
+            
+            <!-- Папка 1 -->
+            <div class="folder-card color-pink" id="folder-1">
+                <div class="folder-header">
+                    <h3 class="folder-title" id="title-text-1">Планы на выходные</h3>
+                    <button class="folder-edit-btn" onclick="openEditMode(event, 1)">⚙️</button>
+                </div>
+                <span class="folder-count">12 релизов</span>
+
+                <!-- Панель редактирования (скрыта) -->
+                <div class="edit-mode-panel" id="edit-panel-1">
+                    <input type="text" class="edit-input" id="input-1" value="Планы на выходные">
+                    <div class="color-picker">
+                        <div class="color-dot color-pink selected" onclick="selectColor(1, 'pink')"></div>
+                        <div class="color-dot color-blue" onclick="selectColor(1, 'blue')"></div>
+                        <div class="color-dot color-purple" onclick="selectColor(1, 'purple')"></div>
+                        <div class="color-dot color-red" onclick="selectColor(1, 'red')"></div>
+                        <div class="color-dot color-green" onclick="selectColor(1, 'green')"></div>
+                    </div>
+                    <div class="edit-actions">
+                        <button class="save-folder-btn" onclick="saveFolderChanges(event, 1)">Сохранить</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Папка 2 -->
+            <div class="folder-card color-purple" id="folder-2">
+                <div class="folder-header">
+                    <h3 class="folder-title" id="title-text-2">Любимое стекло 💔</h3>
+                    <button class="folder-edit-btn" onclick="openEditMode(event, 2)">⚙️</button>
+                </div>
+                <span class="folder-count">8 релизов</span>
+
+                <div class="edit-mode-panel" id="edit-panel-2">
+                    <input type="text" class="edit-input" id="input-2" value="Любимое стекло 💔">
+                    <div class="color-picker">
+                        <div class="color-dot color-pink" onclick="selectColor(2, 'pink')"></div>
+                        <div class="color-dot color-blue" onclick="selectColor(2, 'blue')"></div>
+                        <div class="color-dot color-purple selected" onclick="selectColor(2, 'purple')"></div>
+                        <div class="color-dot color-red" onclick="selectColor(2, 'red')"></div>
+                        <div class="color-dot color-green" onclick="selectColor(2, 'green')"></div>
+                    </div>
+                    <div class="edit-actions">
+                        <button class="save-folder-btn" onclick="saveFolderChanges(event, 2)">Сохранить</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Папка 3 -->
+            <div class="folder-card color-blue" id="folder-3">
+                <div class="folder-header">
+                    <h3 class="folder-title" id="title-text-3">Чистый кайф</h3>
+                    <button class="folder-edit-btn" onclick="openEditMode(event, 3)">⚙️</button>
+                </div>
+                <span class="folder-count">24 релиза</span>
+
+                <div class="edit-mode-panel" id="edit-panel-3">
+                    <input type="text" class="edit-input" id="input-3" value="Чистый кайф">
+                    <div class="color-picker">
+                        <div class="color-dot color-pink" onclick="selectColor(3, 'pink')"></div>
+                        <div class="color-dot color-blue selected" onclick="selectColor(3, 'blue')"></div>
+                        <div class="color-dot color-purple" onclick="selectColor(3, 'purple')"></div>
+                        <div class="color-dot color-red" onclick="selectColor(3, 'red')"></div>
+                        <div class="color-dot color-green" onclick="selectColor(3, 'green')"></div>
+                    </div>
+                    <div class="edit-actions">
+                        <button class="save-folder-btn" onclick="saveFolderChanges(event, 3)">Сохранить</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Сетка стандартных карточек -->
         <div class="grid" id="content-grid"></div>
     </main>
 
@@ -542,6 +769,12 @@
         const filterWrapper = document.getElementById('filter-wrapper');
         const filterNavBtn = document.getElementById('filter-nav-btn');
         const submitFiltersBtn = document.getElementById('submit-filters-btn');
+
+        const personalCollectionsBtn = document.getElementById('personal-collections-btn');
+        const collectionsWrapper = document.getElementById('collections-wrapper');
+
+        // Хранилище выбранных цветов для папок редактирования
+        let tempColors = { 1: 'pink', 2: 'purple', 3: 'blue' };
 
         function generateCards(type, count = 8) {
             contentGrid.innerHTML = '';
@@ -559,13 +792,12 @@
             }
         }
 
-        // Переключение спойлеров (жанры, годы, страны)
         function toggleDropdown(id) {
             const block = document.getElementById(id);
             block.classList.toggle('show');
         }
 
-        // Логика верхнего меню
+        // Логика верхнего навигационного меню
         buttons.forEach(button => {
             button.addEventListener('click', () => {
                 buttons.forEach(btn => btn.classList.remove('active'));
@@ -578,8 +810,11 @@
                 document.documentElement.style.setProperty('--main-color', targetColor);
                 sectionTitle.innerText = `Популярные ${sectionName}`;
                 
-                // Прячем конструктор фильтров при уходе из Дорам
+                // Переключаем блоки в обычный режим карточек
                 filterWrapper.classList.remove('active');
+                collectionsWrapper.classList.remove('active');
+                contentGrid.classList.remove('hidden');
+                
                 generateCards(sectionName);
 
                 if (dataType === 'dramas') {
@@ -595,18 +830,64 @@
         // Клик по кнопке "🔎 По фильтрам" в сайдбаре
         filterNavBtn.addEventListener('click', () => {
             sectionTitle.innerText = "Расширенный поиск дорам";
-            contentGrid.innerHTML = ''; // Очищаем список релизов под фильтрами
-            filterWrapper.classList.add('active'); // Показываем блок с галочками
+            contentGrid.innerHTML = '';
+            collectionsWrapper.classList.remove('active'); // Прячем папки
+            contentGrid.classList.remove('hidden');
+            filterWrapper.classList.add('active'); // Показываем фильтры
             closeSidebar();
         });
 
-        // Кнопка "Применить фильтры"
+        // Клик по кнопке "Личные коллекции 📂" в сайдбаре
+        personalCollectionsBtn.addEventListener('click', () => {
+            sectionTitle.innerText = "Мои личные коллекции";
+            filterWrapper.classList.remove('active'); // Прячем фильтры
+            contentGrid.classList.add('hidden'); // Скрываем обычную сетку дорам
+            collectionsWrapper.classList.add('active'); // Показываем папки
+            closeSidebar();
+        });
+
+        // Открытие режима редактирования папки
+        function openEditMode(event, id) {
+            event.stopPropagation(); // Чтобы клик на шестеренку не открывал саму папку
+            const panel = document.getElementById(`edit-panel-${id}`);
+            panel.classList.add('open');
+        }
+
+        // Выбор цвета в палитре
+        function selectColor(id, colorName) {
+            tempColors[id] = colorName;
+            const dots = document.querySelectorAll(`#edit-panel-${id} .color-dot`);
+            dots.forEach(dot => dot.classList.remove('selected'));
+            
+            // Находим кликнутую точку и подсвечиваем её
+            event.target.classList.add('selected');
+        }
+
+        // Сохранение изменений папки
+        function saveFolderChanges(event, id) {
+            event.stopPropagation();
+            
+            const newTitle = document.getElementById(`input-${id}`).value;
+            const titleElement = document.getElementById(`title-text-${id}`);
+            const folderCard = document.getElementById(`folder-${id}`);
+
+            // Обновляем текст
+            if(newTitle.trim() !== "") {
+                titleElement.innerText = newTitle;
+            }
+
+            // Обновляем цвет (сбрасываем старые классы цветов и ставим новый)
+            folderCard.className = `folder-card color-${tempColors[id]}`;
+
+            // Закрываем панель
+            const panel = document.getElementById(`edit-panel-${id}`);
+            panel.classList.remove('open');
+        }
+
         submitFiltersBtn.addEventListener('click', () => {
-            // Сюда мы позже повесим настоящую фильтрацию, пока просто вернем карточки для красоты
             generateCards('Результат поиска', 4);
         });
 
-        // Работа сайдбара
         toggleBtn.addEventListener('click', () => {
             sidebar.classList.add('open');
             overlay.classList.add('show');
