@@ -22,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* Шапка сайта зафиксирована */
         header {
             background-color: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(10px);
@@ -50,7 +49,6 @@
             gap: 15px;
         }
 
-        /* Кнопка бокового меню (изначально скрыта, видна только в Дорамах) */
         .menu-toggle-btn {
             background: var(--main-color);
             color: white;
@@ -61,11 +59,11 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: none; /* Прячем по умолчанию */
+            display: none;
         }
 
         .menu-toggle-btn.visible {
-            display: inline-block; /* Показываем, когда нужно */
+            display: inline-block;
         }
 
         .logo {
@@ -79,7 +77,6 @@
             transition: color 0.5s ease;
         }
 
-        /* Верхнее меню */
         nav {
             display: flex;
             gap: 10px;
@@ -109,7 +106,7 @@
             box-shadow: 0 4px 15px var(--main-color);
         }
 
-        /* Выезжающая боковая панель (Сайдбар) */
+        /* Обновленная боковая панель */
         .sidebar {
             position: fixed;
             top: 0;
@@ -145,14 +142,39 @@
             background-color: var(--main-color);
         }
 
+        /* Особая кнопка "По фильтрам" на самом верху панели */
+        .filter-main-btn {
+            display: block;
+            background: linear-gradient(135deg, var(--main-color), #4c1d95);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 15px;
+        }
+
+        .filter-main-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px var(--main-color);
+        }
+
         .sidebar-title {
-            font-size: 18px;
+            font-size: 16px;
             color: var(--main-color);
-            margin-top: 40px;
-            margin-bottom: 12px;
+            margin-top: 25px;
+            margin-bottom: 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 5px;
             transition: color 0.5s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
         }
 
         .sidebar-menu {
@@ -162,7 +184,7 @@
         }
 
         .sidebar-menu li {
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .sidebar-menu a {
@@ -170,7 +192,7 @@
             text-decoration: none;
             font-size: 14px;
             display: block;
-            padding: 6px 10px;
+            padding: 5px 10px;
             border-radius: 6px;
             transition: all 0.2s;
         }
@@ -181,7 +203,6 @@
             padding-left: 14px;
         }
 
-        /* Затемнение фона */
         .overlay {
             position: fixed;
             top: 0;
@@ -197,7 +218,6 @@
             display: block;
         }
 
-        /* Основной контент */
         main {
             max-width: 1200px;
             margin: 40px auto;
@@ -267,6 +287,17 @@
     <div class="sidebar" id="sidebar">
         <button class="sidebar-close-btn" id="close-btn">×</button>
         
+        <a href="#" class="filter-main-btn" id="filter-nav-btn">🔎 По фильтрам</a>
+
+        <div class="sidebar-title">Год</div>
+        <ul class="sidebar-menu">
+            <li><a href="#">2025—2026</a></li>
+            <li><a href="#">2020—2024</a></li>
+            <li><a href="#">2015—2019</a></li>
+            <li><a href="#">2010—2014</a></li>
+            <li><a href="#">До 2010</a></li>
+        </ul>
+
         <div class="sidebar-title">Жанры</div>
         <ul class="sidebar-menu">
             <li><a href="#">Романтика</a></li>
@@ -281,18 +312,20 @@
             <li><a href="#">Школа</a></li>
             <li><a href="#">Медицина</a></li>
             <li><a href="#">Юриспруденция</a></li>
+            <li><a href="#" style="color: #f472b6;">BL</a></li>
+            <li><a href="#" style="color: #f472b6;">Гет</a></li>
+            <li><a href="#" style="color: #f87171;">Тяжёлое стекло 💔</a></li>
+            <li><a href="#">Дарк романтика</a></li>
+            <li><a href="#" style="color: #fb923c;">18+</a></li>
+            <li><a href="#" style="color: #fb923c;">Эротика</a></li>
         </ul>
 
         <div class="sidebar-title">Коллекции</div>
         <ul class="sidebar-menu">
             <li><a href="#">Популярные подборки</a></li>
-            <li><a href="#">Выбор редакции</a></li>
-        </ul>
-
-        <div class="sidebar-title">Личные списки</div>
-        <ul class="sidebar-menu">
-            <li><a href="#">Мои коллекции</a></li>
+            <li><a href="#">Общие коллекции</a></li>
             <li><a href="#">Сохранённые коллекции</a></li>
+            <li><a href="#">Личные коллекции 📂</a></li>
         </ul>
 
         <div class="sidebar-title">Страны</div>
@@ -340,7 +373,6 @@
         const closeBtn = document.getElementById('close-btn');
         const overlay = document.getElementById('overlay');
 
-        // Генерация карточек
         function generateCards(type, count = 8) {
             contentGrid.innerHTML = '';
             for (let i = 1; i <= count; i++) {
@@ -357,7 +389,6 @@
             }
         }
 
-        // Логика верхнего меню
         buttons.forEach(button => {
             button.addEventListener('click', () => {
                 buttons.forEach(btn => btn.classList.remove('active'));
@@ -371,7 +402,6 @@
                 sectionTitle.innerText = `Популярные ${sectionName}`;
                 generateCards(sectionName);
 
-                // Если выбрали Дорамы — показываем кнопку бокового меню, иначе прячем
                 if (dataType === 'dramas') {
                     toggleBtn.classList.add('visible');
                 } else {
@@ -382,7 +412,6 @@
             });
         });
 
-        // Работа сайдбара
         toggleBtn.addEventListener('click', () => {
             sidebar.classList.add('open');
             overlay.classList.add('show');
@@ -396,7 +425,6 @@
         closeBtn.addEventListener('click', closeSidebar);
         overlay.addEventListener('click', closeSidebar);
 
-        // Старт
         generateCards('Фильмы');
     </script>
 </body>
