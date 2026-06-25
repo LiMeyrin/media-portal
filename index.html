@@ -321,4 +321,83 @@
                 <button class="nav-btn" data-type="anime" data-color="#f97316" data-name="Аниме">Аниме</button>
                 <button class="nav-btn" data-type="donghua" data-color="#10b981" data-name="Дунхуа">Дунхуа</button>
                 <button class="nav-btn" data-type="novels" data-color="#b45309" data-name="Новеллы">Новеллы</button>
-                <button class="nav-btn" data-type="manhwa" data-color="#8b5cf6" data-name="Ман
+                <button class="nav-btn" data-type="manhwa" data-color="#8b5cf6" data-name="Манхва">Манхва</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h2 class="section-title" id="current-section-title">Популярные Фильмы</h2>
+        <div class="grid" id="content-grid"></div>
+    </main>
+
+    <script>
+        const buttons = document.querySelectorAll('.nav-btn');
+        const sectionTitle = document.getElementById('current-section-title');
+        const contentGrid = document.getElementById('content-grid');
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggle-btn');
+        const closeBtn = document.getElementById('close-btn');
+        const overlay = document.getElementById('overlay');
+
+        // Генерация карточек
+        function generateCards(type, count = 8) {
+            contentGrid.innerHTML = '';
+            for (let i = 1; i <= count; i++) {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-poster">Постер #${i}</div>
+                    <div class="card-info">
+                        <p class="card-title">Пример релиза #${i}</p>
+                        <span class="card-tag">${type}</span>
+                    </div>
+                `;
+                contentGrid.appendChild(card);
+            }
+        }
+
+        // Логика верхнего меню
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const targetColor = button.getAttribute('data-color');
+                const sectionName = button.getAttribute('data-name');
+                const dataType = button.getAttribute('data-type');
+
+                document.documentElement.style.setProperty('--main-color', targetColor);
+                sectionTitle.innerText = `Популярные ${sectionName}`;
+                generateCards(sectionName);
+
+                // Если выбрали Дорамы — показываем кнопку бокового меню, иначе прячем
+                if (dataType === 'dramas') {
+                    toggleBtn.classList.add('visible');
+                } else {
+                    toggleBtn.classList.remove('visible');
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('show');
+                }
+            });
+        });
+
+        // Работа сайдбара
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+        });
+
+        const closeSidebar = () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        };
+
+        closeBtn.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
+
+        // Старт
+        generateCards('Фильмы');
+    </script>
+</body>
+</html>
